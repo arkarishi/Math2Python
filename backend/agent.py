@@ -69,6 +69,13 @@ def process_equation(equation: str) -> ConversionResponse:
             
         data = json.loads(content)
         
+        # Robustness: Handle common LLM schema errors
+        if "numpy" not in data:
+             data["numpy"] = "# NumPy code not provided by model"
+        
+        if isinstance(data.get("explanation"), list):
+             data["explanation"] = "\n".join(data["explanation"])
+             
         # Validate with Pydantic
         result = ConversionResponse(**data)
         

@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 # Load env vars before importing anything that uses them
 load_dotenv()
+# Trigger reload for env update (switching to Llama)
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +14,9 @@ app = FastAPI(title="Math2Python API")
 # CORS middleware configuration
 origins = [
     "http://localhost:3000",
+    "http://localhost:5173", # Vite default port
+    "http://localhost:8080", # Frontend 2 port preference
+    "http://localhost:8081", # Frontend 2 fallback port
     "https://math2python.vercel.app", # Placeholder for deployment
     "*" # Allow all for MVP ease, restrict in prod
 ]
