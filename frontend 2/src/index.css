@@ -1,0 +1,260 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* Math2Python Design System - Deep Space Cyberpunk */
+
+@layer base {
+  :root {
+    /* Deep space dark theme - no light mode */
+    --background: 222 47% 6%;
+    --foreground: 210 40% 96%;
+
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 96%;
+
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 96%;
+
+    --primary: 271 91% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 187 96% 42%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 222 30% 14%;
+    --muted-foreground: 215 20% 55%;
+
+    --accent: 271 91% 65%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 222 30% 18%;
+    --input: 222 30% 12%;
+    --ring: 271 91% 65%;
+
+    --radius: 0.75rem;
+
+    /* Aurora Colors */
+    --aurora-purple: 271 91% 65%;
+    --aurora-cyan: 187 96% 42%;
+    --aurora-blue: 217 91% 60%;
+    
+    /* Glow Effects */
+    --glow-purple: 271 91% 65%;
+    --glow-cyan: 187 96% 42%;
+
+    /* Glass Effect */
+    --glass-bg: 222 47% 10%;
+    --glass-border: 222 30% 25%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer components {
+  /* Gradient Text Effect */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--aurora-purple)) 0%,
+      hsl(var(--aurora-cyan)) 50%,
+      hsl(var(--aurora-purple)) 100%
+    );
+    background-size: 200% auto;
+    animation: gradient-shift 4s ease-in-out infinite;
+  }
+
+  /* Glass Card */
+  .glass-card {
+    @apply relative overflow-hidden rounded-xl;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--glass-bg) / 0.6) 0%,
+      hsl(var(--glass-bg) / 0.3) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--glass-border) / 0.5);
+    box-shadow: 
+      0 8px 32px hsl(var(--aurora-purple) / 0.1),
+      inset 0 1px 0 hsl(0 0% 100% / 0.05);
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--aurora-cyan) / 0.3) 50%,
+      transparent 100%
+    );
+  }
+
+  /* Glow Button */
+  .glow-button {
+    @apply relative px-8 py-4 font-semibold rounded-xl transition-all duration-300;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--aurora-purple)) 0%,
+      hsl(var(--aurora-cyan)) 100%
+    );
+    box-shadow: 0 0 20px hsl(var(--aurora-purple) / 0.3);
+  }
+
+  .glow-button:hover {
+    box-shadow: 
+      0 0 40px hsl(var(--aurora-purple) / 0.5),
+      0 0 80px hsl(var(--aurora-cyan) / 0.3);
+    transform: translateY(-2px);
+  }
+
+  .glow-button:active {
+    transform: translateY(0);
+  }
+
+  /* Glass Input */
+  .glass-input {
+    @apply w-full rounded-xl p-6 font-mono text-sm resize-none;
+    background: hsl(var(--glass-bg) / 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--glass-border) / 0.4);
+    transition: all 0.3s ease;
+  }
+
+  .glass-input:focus {
+    outline: none;
+    border-color: hsl(var(--aurora-purple) / 0.6);
+    box-shadow: 
+      0 0 0 4px hsl(var(--aurora-purple) / 0.1),
+      0 0 30px hsl(var(--aurora-purple) / 0.2);
+  }
+
+  .glass-input::placeholder {
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Code Block */
+  .code-block {
+    @apply rounded-lg p-4 font-mono text-sm overflow-x-auto;
+    background: hsl(var(--background));
+    border: 1px solid hsl(var(--border));
+  }
+
+  /* Aurora Background */
+  .aurora-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .aurora-bg::before,
+  .aurora-bg::after {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    animation: aurora-float 20s ease-in-out infinite;
+  }
+
+  .aurora-bg::before {
+    top: -50%;
+    left: -25%;
+    background: radial-gradient(
+      ellipse,
+      hsl(var(--aurora-purple)) 0%,
+      transparent 70%
+    );
+  }
+
+  .aurora-bg::after {
+    bottom: -50%;
+    right: -25%;
+    background: radial-gradient(
+      ellipse,
+      hsl(var(--aurora-cyan)) 0%,
+      transparent 70%
+    );
+    animation-delay: -10s;
+  }
+
+  /* Card Label */
+  .card-label {
+    @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider;
+    background: hsl(var(--aurora-purple) / 0.15);
+    color: hsl(var(--aurora-purple));
+    border: 1px solid hsl(var(--aurora-purple) / 0.3);
+  }
+
+  .card-label-cyan {
+    background: hsl(var(--aurora-cyan) / 0.15);
+    color: hsl(var(--aurora-cyan));
+    border: 1px solid hsl(var(--aurora-cyan) / 0.3);
+  }
+
+  .card-label-blue {
+    background: hsl(var(--aurora-blue) / 0.15);
+    color: hsl(var(--aurora-blue));
+    border: 1px solid hsl(var(--aurora-blue) / 0.3);
+  }
+}
+
+@layer utilities {
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% center;
+    }
+    50% {
+      background-position: 200% center;
+    }
+  }
+
+  @keyframes aurora-float {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    33% {
+      transform: translate(5%, 5%) rotate(5deg);
+    }
+    66% {
+      transform: translate(-5%, 2%) rotate(-5deg);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+}
