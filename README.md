@@ -1,24 +1,45 @@
-# Math2Python Optimization Agent 🧮 ➡️ 🐍
+# Math2Python 🧮 ➡️ 🐍
 
-A full-stack GenAI agent that converts research-grade **LaTeX optimization equations** into executable **Python code** (SymPy & NumPy).
+**Math2Python** is a full-stack AI agent that instantly converts research-grade LaTeX optimization equations into executable, production-ready Python code. It bridges the gap between theoretical research and engineering implementation.
 
 ## 🚀 Live Demo
-**Frontend URL**: [Insert your Vercel Link Here]
-**Backend API**: [Insert your Antigravity Link Here]
+*   **Web App (Frontend):** [**https://math2-python.vercel.app**](https://math2-python.vercel.app/)
+*   **API (Backend):** [https://math2python-api.onrender.com](https://math2python-api.onrender.com)
+
+---
+
+## ✨ Key Features
+
+### 1. 🧠 Multimodal Input
+*   **Image-to-Code**: Drag & drop screenshots of equations from papers.
+*   **LaTeX Support**: Paste complex LaTeX strings directly.
+
+### 2. ⚡ Dual Code Generation
+*   **SymPy (Symbolic)**: Generates exact symbolic representations for validation.
+*   **NumPy / PyTorch (Numerical)**: Generates highly optimized, vectorized code ready for training loops.
+
+### 3. 👨‍💻 "Senior Engineer" Analysis
+*   **Complexity Analysis**: Automatically estimates **Time** ($O(N^3)$) and **Space** complexity.
+*   **Stability Warnings**: Flags potential numerical instabilities (e.g., division by zero, unstable matrix inversions) *before* you run the code.
+
+### 4. 📓 Jupyter Export
+*   **One-Click Download**: Export the entire solution as a `.ipynb` file, ready for Google Colab or Jupyter implementations.
+
+---
 
 ## 🛠️ Tech Stack
-- **Frontend**: Next.js 14, standard CSS (Glassmorphism UI).
-- **Backend**: FastAPI, Pydantic AI.
-- **AI Model**: Google Gemma 2 (9B) via OpenRouter (Free Tier).
-- **Validation**: SymPy (Symbolic Math Library).
 
-## ✨ Features
-1.  **LaTeX Parsing**: Handles complex math like `\min_{x} \|Ax - b\|_2^2`.
-2.  **Dual Code Generation**:
-    - **SymPy**: For symbolic analysis.
-    - **NumPy**: For numerical implementation.
-3.  **Smart Fallback (Demo Mode)**: Includes a robust fallback mechanism that returns pre-computed responses if the free AI API is rate-limited (ensuring reliability during demos).
-4.  **Copy-Paste Ready**: One-click copy for generated code.
+### Frontend
+*   **React (Vite)**: High-performance SPA.
+*   **Tailwind CSS**: Modern utility-first styling.
+*   **Framer Motion**: Smooth, glassmorphism UI animations.
+
+### Backend
+*   **Python (FastAPI)**: Async, type-safe API.
+*   **AI Engine**: **Gemini 2.0 Flash** (via OpenRouter) for multimodal reasoning.
+*   **SymPy**: For symbolic math validation.
+
+---
 
 ## 🏃‍♂️ How to Run Locally
 
@@ -29,21 +50,17 @@ cd backend
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```
-Server runs at: `http://127.0.0.1:8000`
+API runs at: `http://127.0.0.1:8000`
 
 ### 2. Frontend
 ```bash
-cd frontend
+cd "frontend 2"  # Note the space in the folder name
 npm install
 npm run dev
 ```
-App runs at: `http://localhost:3000`
+App runs at: `http://localhost:8080` (or similar)
 
-## 🧪 Testing
-Try this equation:
-```latex
-\min_{x} \frac{1}{2} \|Ax - b\|_2^2 + \lambda \|x\|_1
-```
+---
 
 ## 📄 License
 MIT License
