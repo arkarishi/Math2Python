@@ -15,6 +15,9 @@ const HeroSection = () => {
           className="h-32 md:h-40 w-auto drop-shadow-[0_0_25px_rgba(34,211,238,0.5)]"
         />
       </div>
+      <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
+        <span className="gradient-text">Math2Python</span>
+      </h1>
       <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
         Convert Research Math into Runnable Python
       </p>
