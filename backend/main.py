@@ -38,7 +38,7 @@ def convert_equation(request: ConversionRequest):
     if not request.equation.strip():
         raise HTTPException(status_code=400, detail="Equation cannot be empty")
     
-    response = process_equation(request.equation, request.image_data)
+    response = process_equation(request.equation, request.image_data, request.framework)
     return response
 
 if __name__ == "__main__":

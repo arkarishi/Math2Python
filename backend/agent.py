@@ -49,18 +49,23 @@ def validate_sympy_code(code_str: str) -> bool:
         return False
     return True
 
-def process_equation(equation: str, image_data: str = None) -> ConversionResponse:
-    logger.info(f"Processing equation: {equation[:50]}... (Image present: {bool(image_data)})")
+def process_equation(equation: str, image_data: str = None, framework: str = "numpy") -> ConversionResponse:
+    logger.info(f"Processing equation: {equation[:50]}... (Image: {bool(image_data)}, Framework: {framework})")
     
     try:
         model_name = os.getenv("OPENROUTER_MODEL", "qwen/qwen-2.5-32b-instruct") 
         
+        # Prepare specific instructions based on framework
+        tech_instruction = ""
+        if framework == "pytorch":
+            tech_instruction = "IMPORTANT: For the 'numpy' JSON key, generate valid PyTorch code instead of NumPy. Use 'import torch', 'def objective(...)', and torch operations (torch.linalg.norm, torch.matmul). Do NOT change the JSON key name."
+
         # Construct message based on input type (Text-only vs Multimodal)
         if image_data:
             user_message_content = [
                 {
                     "type": "text",
-                    "text": f"Convert this equation image into code. Context/Notes: {equation}"
+                    "text": f"Convert this equation image into code. {tech_instruction} Context/Notes: {equation}"
                 },
                 {
                     "type": "image_url",
@@ -70,7 +75,7 @@ def process_equation(equation: str, image_data: str = None) -> ConversionRespons
                 }
             ]
         else:
-            user_message_content = f"Convert this equation: {equation}"
+            user_message_content = f"Convert this equation: {equation}. {tech_instruction}"
 
         response = client.chat.completions.create(
             model=model_name,

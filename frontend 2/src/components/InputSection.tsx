@@ -8,11 +8,13 @@ interface InputSectionProps {
   onConvert: () => void;
   onImageUpload: (file: File) => void;
   isLoading: boolean;
+  framework: "numpy" | "pytorch";
+  setFramework: (val: "numpy" | "pytorch") => void;
 }
 
 import { Upload } from "lucide-react";
 
-const InputSection = ({ value, onChange, onConvert, onImageUpload, isLoading }: InputSectionProps) => {
+const InputSection = ({ value, onChange, onConvert, onImageUpload, isLoading, framework, setFramework }: InputSectionProps) => {
   const [isDragging, setIsDragging] = React.useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +80,29 @@ or
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-center flex-wrap justify-center">
+          {/* Framework Toggle */}
+          <div className="flex bg-white/5 rounded-full p-1 border border-white/10">
+            <button
+              onClick={() => setFramework("numpy")}
+              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${framework === "numpy"
+                ? "bg-aurora-blue text-white shadow-lg"
+                : "text-gray-400 hover:text-white"
+                }`}
+            >
+              NumPy
+            </button>
+            <button
+              onClick={() => setFramework("pytorch")}
+              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${framework === "pytorch"
+                ? "bg-orange-500 text-white shadow-lg"
+                : "text-gray-400 hover:text-white"
+                }`}
+            >
+              PyTorch
+            </button>
+          </div>
+
           <label className="glow-button text-primary-foreground flex items-center gap-3 cursor-pointer hover:bg-white/10">
             <Upload className="w-5 h-5" />
             <span className="hidden sm:inline">Upload Image</span>
@@ -97,7 +121,7 @@ or
             className="glow-button text-primary-foreground flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:transform-none"
           >
             <Sparkles className="w-5 h-5" />
-            <span>{isLoading ? "Converting..." : "Convert to Code"}</span>
+            <span>{isLoading ? "Converting..." : framework === "pytorch" ? "Convert to PyTorch" : "Convert to Code"}</span>
           </button>
         </div>
       </motion.div>

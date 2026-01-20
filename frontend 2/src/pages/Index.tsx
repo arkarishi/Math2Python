@@ -11,7 +11,7 @@ interface Results {
 }
 
 // Real conversion function - Calls Python Backend
-const convertToCode = async (latex: string, imageBase64?: string): Promise<Results> => {
+const convertToCode = async (latex: string, imageBase64?: string, framework: string = "numpy"): Promise<Results> => {
   const response = await fetch("http://127.0.0.1:8000/convert", {
     method: "POST",
     headers: {
@@ -19,7 +19,8 @@ const convertToCode = async (latex: string, imageBase64?: string): Promise<Resul
     },
     body: JSON.stringify({
       equation: latex || "Image Uploaded", // Fallback text if just image 
-      image_data: imageBase64
+      image_data: imageBase64,
+      framework: framework
     }),
   });
 
@@ -35,6 +36,7 @@ const Index = () => {
   const [latexInput, setLatexInput] = useState("");
   const [results, setResults] = useState<Results | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [framework, setFramework] = useState<"numpy" | "pytorch">("numpy");
 
   // Convert file to Base64
   const toBase64 = (file: File) => new Promise<string>((resolve, reject) => {
@@ -49,7 +51,7 @@ const Index = () => {
     setResults(null);
     try {
       const base64 = await toBase64(file);
-      const convertedResults = await convertToCode("", base64);
+      const convertedResults = await convertToCode("", base64, framework);
       setResults(convertedResults);
     } catch (error) {
       console.error("Image conversion failed:", error);
@@ -65,7 +67,7 @@ const Index = () => {
     setResults(null);
 
     try {
-      const convertedResults = await convertToCode(latexInput);
+      const convertedResults = await convertToCode(latexInput, undefined, framework);
       setResults(convertedResults);
     } catch (error) {
       console.error("Conversion failed:", error);
@@ -87,6 +89,8 @@ const Index = () => {
           onConvert={handleConvert}
           onImageUpload={handleImageUpload}
           isLoading={isLoading}
+          framework={framework}
+          setFramework={setFramework}
         />
 
         <ResultsGrid results={results} />
