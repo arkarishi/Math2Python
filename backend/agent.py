@@ -49,16 +49,34 @@ def validate_sympy_code(code_str: str) -> bool:
         return False
     return True
 
-def process_equation(equation: str) -> ConversionResponse:
-    logger.info(f"Processing equation: {equation}")
+def process_equation(equation: str, image_data: str = None) -> ConversionResponse:
+    logger.info(f"Processing equation: {equation[:50]}... (Image present: {bool(image_data)})")
     
     try:
-        model_name = os.getenv("OPENROUTER_MODEL", "qwen/qwen-2.5-32b-instruct") # Default to cost-effective 32B model
+        model_name = os.getenv("OPENROUTER_MODEL", "qwen/qwen-2.5-32b-instruct") 
+        
+        # Construct message based on input type (Text-only vs Multimodal)
+        if image_data:
+            user_message_content = [
+                {
+                    "type": "text",
+                    "text": f"Convert this equation image into code. Context/Notes: {equation}"
+                },
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/jpeg;base64,{image_data}"
+                    }
+                }
+            ]
+        else:
+            user_message_content = f"Convert this equation: {equation}"
+
         response = client.chat.completions.create(
             model=model_name,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": f"Convert this equation: {equation}"}
+                {"role": "user", "content": user_message_content}
             ],
             response_format={"type": "json_object"}
         )

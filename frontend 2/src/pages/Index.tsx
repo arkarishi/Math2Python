@@ -11,13 +11,16 @@ interface Results {
 }
 
 // Real conversion function - Calls Python Backend
-const convertToCode = async (latex: string): Promise<Results> => {
+const convertToCode = async (latex: string, imageBase64?: string): Promise<Results> => {
   const response = await fetch("http://127.0.0.1:8000/convert", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ equation: latex }),
+    body: JSON.stringify({
+      equation: latex || "Image Uploaded", // Fallback text if just image 
+      image_data: imageBase64
+    }),
   });
 
   if (!response.ok) {
@@ -32,6 +35,28 @@ const Index = () => {
   const [latexInput, setLatexInput] = useState("");
   const [results, setResults] = useState<Results | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Convert file to Base64
+  const toBase64 = (file: File) => new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string ? (reader.result as string).split(',')[1] : "");
+    reader.onerror = error => reject(error);
+  });
+
+  const handleImageUpload = async (file: File) => {
+    setIsLoading(true);
+    setResults(null);
+    try {
+      const base64 = await toBase64(file);
+      const convertedResults = await convertToCode("", base64);
+      setResults(convertedResults);
+    } catch (error) {
+      console.error("Image conversion failed:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleConvert = async () => {
     if (!latexInput.trim()) return;
@@ -60,6 +85,7 @@ const Index = () => {
           value={latexInput}
           onChange={setLatexInput}
           onConvert={handleConvert}
+          onImageUpload={handleImageUpload}
           isLoading={isLoading}
         />
 

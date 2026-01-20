@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 # Load env vars before importing anything that uses them
 load_dotenv()
-# Trigger reload for env update (switching to Llama)
+# Trigger reload for env update (switching to Gemini 2.0)
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -38,7 +38,7 @@ def convert_equation(request: ConversionRequest):
     if not request.equation.strip():
         raise HTTPException(status_code=400, detail="Equation cannot be empty")
     
-    response = process_equation(request.equation)
+    response = process_equation(request.equation, request.image_data)
     return response
 
 if __name__ == "__main__":
