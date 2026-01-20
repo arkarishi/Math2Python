@@ -9,3 +9,4 @@ class ConversionResponse(BaseModel):
     sympy: str
     numpy: str
     explanation: str
+    complexity: str = "Complexity analysis unavailable"

@@ -8,11 +8,13 @@ interface Results {
   sympy: string;
   numpy: string;
   explanation: string;
+  complexity: string;
 }
 
 // Real conversion function - Calls Python Backend
 const convertToCode = async (latex: string, imageBase64?: string, framework: string = "numpy"): Promise<Results> => {
-  const response = await fetch("http://127.0.0.1:8000/convert", {
+  const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+  const response = await fetch(`${API_URL}/convert`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -93,7 +95,7 @@ const Index = () => {
           setFramework={setFramework}
         />
 
-        <ResultsGrid results={results} />
+        <ResultsGrid results={results} framework={framework} />
       </main>
 
       {/* Footer accent */}

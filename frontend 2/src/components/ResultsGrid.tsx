@@ -6,10 +6,12 @@ interface Results {
   sympy: string;
   numpy: string;
   explanation: string;
+  complexity: string;
 }
 
 interface ResultsGridProps {
   results: Results | null;
+  framework: "numpy" | "pytorch";
 }
 
 const generateNotebookJSON = (results: Results) => {
@@ -70,7 +72,7 @@ const generateNotebookJSON = (results: Results) => {
   };
 };
 
-const ResultsGrid = ({ results }: ResultsGridProps) => {
+const ResultsGrid = ({ results, framework }: ResultsGridProps) => {
   if (!results) return null;
 
   const downloadNotebook = () => {
@@ -111,7 +113,7 @@ const ResultsGrid = ({ results }: ResultsGridProps) => {
           delay={0.1}
         />
         <ResultCard
-          title="NumPy (Numerical)"
+          title={framework === "pytorch" ? "PyTorch (Numerical)" : "NumPy (Numerical)"}
           content={results.numpy}
           type="numpy"
           delay={0.2}
@@ -121,6 +123,13 @@ const ResultsGrid = ({ results }: ResultsGridProps) => {
           content={results.explanation}
           type="explanation"
           delay={0.3}
+        />
+        <ResultCard
+          title="Complexity Analysis"
+          content={results.complexity}
+          type="complexity"
+          delay={0.4}
+          className="lg:col-span-3"
         />
       </div>
     </motion.div>

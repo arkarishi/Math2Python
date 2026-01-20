@@ -43,7 +43,7 @@
     --aurora-purple: 271 91% 65%;
     --aurora-cyan: 187 96% 42%;
     --aurora-blue: 217 91% 60%;
-    
+
     /* Glow Effects */
     --glow-purple: 271 91% 65%;
     --glow-cyan: 187 96% 42%;
@@ -68,15 +68,14 @@
 }
 
 @layer components {
+
   /* Gradient Text Effect */
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(
-      135deg,
-      hsl(var(--aurora-purple)) 0%,
-      hsl(var(--aurora-cyan)) 50%,
-      hsl(var(--aurora-purple)) 100%
-    );
+    background-image: linear-gradient(135deg,
+        hsl(var(--aurora-purple)) 0%,
+        hsl(var(--aurora-cyan)) 50%,
+        hsl(var(--aurora-purple)) 100%);
     background-size: 200% auto;
     animation: gradient-shift 4s ease-in-out infinite;
   }
@@ -84,14 +83,12 @@
   /* Glass Card */
   .glass-card {
     @apply relative overflow-hidden rounded-xl;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--glass-bg) / 0.6) 0%,
-      hsl(var(--glass-bg) / 0.3) 100%
-    );
+    background: linear-gradient(135deg,
+        hsl(var(--glass-bg) / 0.6) 0%,
+        hsl(var(--glass-bg) / 0.3) 100%);
     backdrop-filter: blur(20px);
     border: 1px solid hsl(var(--glass-border) / 0.5);
-    box-shadow: 
+    box-shadow:
       0 8px 32px hsl(var(--aurora-purple) / 0.1),
       inset 0 1px 0 hsl(0 0% 100% / 0.05);
   }
@@ -103,27 +100,23 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      hsl(var(--aurora-cyan) / 0.3) 50%,
-      transparent 100%
-    );
+    background: linear-gradient(90deg,
+        transparent 0%,
+        hsl(var(--aurora-cyan) / 0.3) 50%,
+        transparent 100%);
   }
 
   /* Glow Button */
   .glow-button {
     @apply relative px-8 py-4 font-semibold rounded-xl transition-all duration-300;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--aurora-purple)) 0%,
-      hsl(var(--aurora-cyan)) 100%
-    );
+    background: linear-gradient(135deg,
+        hsl(var(--aurora-purple)) 0%,
+        hsl(var(--aurora-cyan)) 100%);
     box-shadow: 0 0 20px hsl(var(--aurora-purple) / 0.3);
   }
 
   .glow-button:hover {
-    box-shadow: 
+    box-shadow:
       0 0 40px hsl(var(--aurora-purple) / 0.5),
       0 0 80px hsl(var(--aurora-cyan) / 0.3);
     transform: translateY(-2px);
@@ -145,7 +138,7 @@
   .glass-input:focus {
     outline: none;
     border-color: hsl(var(--aurora-purple) / 0.6);
-    box-shadow: 
+    box-shadow:
       0 0 0 4px hsl(var(--aurora-purple) / 0.1),
       0 0 30px hsl(var(--aurora-purple) / 0.2);
   }
@@ -184,21 +177,17 @@
   .aurora-bg::before {
     top: -50%;
     left: -25%;
-    background: radial-gradient(
-      ellipse,
-      hsl(var(--aurora-purple)) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(ellipse,
+        hsl(var(--aurora-purple)) 0%,
+        transparent 70%);
   }
 
   .aurora-bg::after {
     bottom: -50%;
     right: -25%;
-    background: radial-gradient(
-      ellipse,
-      hsl(var(--aurora-cyan)) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(ellipse,
+        hsl(var(--aurora-cyan)) 0%,
+        transparent 70%);
     animation-delay: -10s;
   }
 
@@ -211,12 +200,14 @@
   }
 
   .card-label-cyan {
+    @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider;
     background: hsl(var(--aurora-cyan) / 0.15);
     color: hsl(var(--aurora-cyan));
     border: 1px solid hsl(var(--aurora-cyan) / 0.3);
   }
 
   .card-label-blue {
+    @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider;
     background: hsl(var(--aurora-blue) / 0.15);
     color: hsl(var(--aurora-blue));
     border: 1px solid hsl(var(--aurora-blue) / 0.3);
@@ -225,30 +216,40 @@
 
 @layer utilities {
   @keyframes gradient-shift {
-    0%, 100% {
+
+    0%,
+    100% {
       background-position: 0% center;
     }
+
     50% {
       background-position: 200% center;
     }
   }
 
   @keyframes aurora-float {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translate(0, 0) rotate(0deg);
     }
+
     33% {
       transform: translate(5%, 5%) rotate(5deg);
     }
+
     66% {
       transform: translate(-5%, 2%) rotate(-5deg);
     }
   }
 
   @keyframes pulse-glow {
-    0%, 100% {
+
+    0%,
+    100% {
       opacity: 0.5;
     }
+
     50% {
       opacity: 1;
     }

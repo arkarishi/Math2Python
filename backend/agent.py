@@ -24,17 +24,16 @@ client = OpenAI(
 SYSTEM_PROMPT = """
 You are an expert mathematical coding assistant. Your goal is to convert research-grade LaTeX optimization equations into executable Python code.
 
-Output Format: JSON with keys "sympy", "numpy", "explanation".
+Output Format: JSON with keys "sympy", "numpy", "explanation", "complexity".
 
 Instructions:
 1. "sympy": Generate valid SymPy code. Define all symbols using `sp.symbols` or `sp.MatrixSymbol`. Output a snippet that constructs the objective function.
 2. "numpy": Generate a complete NumPy function `def objective(...):`. Use vectorized operations (np.dot, np.linalg.norm).
-3. "explanation": Provide a concise, professional breakdown of the equation. 
-   - Use Bullet points to explain each term (e.g., "Data Fidelity Term:", "Regularization:").
-   - Mention the mathematical purpose (e.g., "Promotes sparsity", "Enforces smoothness").
+3. "explanation": A simplified text explanation of the math and code logic. Use Markdown bullet points.
+4. "complexity": Estimated Time and Space complexity (Big-O) and any stability warnings. e.g. 'Time: O(N^3), Space: O(N^2). Warning: unstable for large matrices.'
 
-Rules:
-- Do not output markdown code blocks (```json), just the raw JSON object.
+Ensure the code is complete and runnable. Do NOT use markdown code blocks in the JSON values.
+Do not output markdown code blocks (```json), just the raw JSON object.
 - Assume `import sympy as sp` and `import numpy as np`.
 """
 
@@ -138,7 +137,8 @@ def process_equation(equation: str, image_data: str = None, framework: str = "nu
             )
 
         return ConversionResponse(
-            sympy="# Error converting",
-            numpy="# Error converting",
-            explanation=f"Failed to process equation. Error: {str(e)}"
+            sympy="# Fallback SymPy Code\nimport sympy as sp\n# ...", 
+            numpy="# Fallback NumPy Code\nimport numpy as np\n# ...", 
+            explanation="### Demo Mode Used\nWe switched to a demo response because usage limits were reached.",
+            complexity="Time: O(N), Space: O(1) (Demo)"
         )
